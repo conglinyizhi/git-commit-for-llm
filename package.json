@@ -1,0 +1,21 @@
+{
+  "name": "git-commit-for-llm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "bun src/index.ts"
+  },
+  "keywords": [],
+  "author": "conglinyizhi",
+  "license": "MIT",
+  "packageManager": "pnpm@10.11.0",
+  "runtime": "bun@1.1.100",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "consola": "^3.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21"
+  }
+}
