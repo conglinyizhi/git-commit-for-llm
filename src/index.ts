@@ -27,11 +27,9 @@ while (aiChatList.getMessages().length < 5) {
   logger.info(`开始调用大模型....`);
   const response = await callLLM(aiChatList);
   const { tool_calls } = response.data.choices[0].message;
-  logger.success(`大模型调用完成，后处理中……`);
-  logger.debug(`AI响应长度: ${tool_calls.length}`);
-
+  logger.success(`大模型调用完成，后处理中...`);
   const toolCallResult = await router.handleResponse({ tool_calls });
-  logger.success(`后处理完成，开始执行git提交`);
+  logger.debug(`调用工具：${JSON.stringify(toolCallResult)}`);
   if (toolCallResult['git-commit']) {
     const { type, message } = toolCallResult['git-commit'];
     // 执行git提交，如果是暂存区模式则自动添加更改
