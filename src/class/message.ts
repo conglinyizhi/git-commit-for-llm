@@ -69,4 +69,20 @@ export default class Message {
   constructor() {
     return this;
   }
+
+  /**
+   * 添加工具函数消息
+   * @param toolCallId 工具调用ID - 用于关联工具调用和响应
+   * @param content 工具执行结果内容 - 通常是JSON字符串格式的工具输出
+   * @example
+   * // 添加一个天气查询工具的结果
+   * message.pushToolMessage('call_123', JSON.stringify({temperature: 25}))
+   */
+  pushToolMessage(toolCallId: string, content: string) {
+    this.pushMessage({
+      role: 'tool',
+      content,
+      tool_call_id: toolCallId,
+    });
+  }
 }

@@ -7,5 +7,7 @@ export default function getSystemPrompt() {
   // 不用返回其他内容，请调用工具来返回类型和提交信息。
   const step3 =
     'You should not return any other content, please call the tool to return the type and commit message.';
-  return `${step1}\n\n${step2}\n\n${step3}`;
+  // 你可以使用工具来读取某个代码文件，但是每次只能读取一个文件，每次也只能调用一个工具
+  const step4 = 'You can only read one file at a time, and you can only call one tool at a time.';
+  return `${step1}\n\n${step2}\n\n${step3}\n\n${step4}`;
 }

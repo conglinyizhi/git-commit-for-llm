@@ -41,5 +41,16 @@ while (aiChatList.getMessages().length < 5) {
       needAdd: mode === 'unstaged',
     });
     break;
+  } else {
+    logger.debug(`AI响应: ${JSON.stringify(tool_calls)}`);
+    aiChatList.pushMessage({
+      role: 'assistant',
+      content: null,
+      tool_calls,
+    });
+    if (toolCallResult['read-file']) {
+      const { content } = toolCallResult['read-file'];
+      aiChatList.pushUserMessage(content);
+    }
   }
 }

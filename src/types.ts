@@ -34,7 +34,11 @@ export interface ExecConfig {
  */
 export interface LLMMessage {
   role: Role;
-  content: string;
+  content: string | null;
+  // 工具说：这是我的id
+  tool_call_id?: string;
+  // 大模型说：我想调用这些个工具们
+  tool_calls?: ToolCall[];
 }
 
 export type Role = 'user' | 'assistant' | 'system' | 'function' | 'tool';
