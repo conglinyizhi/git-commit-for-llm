@@ -36,25 +36,30 @@ while (aiChatList.getMessages().length < 5) {
   logger.success(`大模型调用完成，后处理中...`);
   const toolCallResult = await router.handleResponse({ tool_calls });
   logger.debug(`调用工具：${JSON.stringify(toolCallResult)}`);
-  if (toolCallResult['git-commit']) {
-    const { type, message } = toolCallResult['git-commit'];
-    // 执行git提交，如果是暂存区模式则自动添加更改
-    await commit({
-      gitRoot,
-      message: `${type}: ${message}`, // 组合提交信息格式：type: message
-      needAdd: mode === 'unstaged',
-    });
-    break;
-  } else {
-    logger.debug(`AI响应: ${JSON.stringify(tool_calls)}`);
-    aiChatList.pushMessage({
-      role: 'assistant',
-      content: null,
-      tool_calls,
-    });
-    if (toolCallResult['read-file']) {
-      const { content } = toolCallResult['read-file'];
-      aiChatList.pushToolMessage(tool_calls[0].id, content);
-    }
+
+  if (await commitTool(toolCallResult)) break;
+
+  logger.debug(`AI响应: ${JSON.stringify(tool_calls)}`);
+  aiChatList.pushMessage({
+    role: 'assistant',
+    content: null,
+    tool_calls,
+  });
+  if (toolCallResult['read-file']) {
+    const { content } = toolCallResult['read-file'];
+    aiChatList.pushToolMessage(tool_calls[0].id, content);
   }
+}
+
+/** 执行git提交，如果确实需要提交，返回 True 以终止循环 */
+async function commitTool(toolCallResult: Record<string, any>): Promise<boolean> {
+  if (!toolCallResult['git-commit']) return false;
+  const { type, message } = toolCallResult['git-commit'];
+  // 执行git提交，如果是暂存区模式则自动添加更改
+  await commit({
+    gitRoot,
+    message: `${type}: ${message}`, // 组合提交信息格式：type: message
+    needAdd: mode === 'unstaged',
+  });
+  return true;
 }
