@@ -21,22 +21,25 @@ logger.debug(`系统提示信息长度: ${systemPrompt.length}`);
 
 aiChatList.initMessageArray(systemPrompt);
 aiChatList.pushUserMessage(diff);
+logger.debug(`Diff(from git) length: ${diff.length}`);
 
-logger.debug(`用户消息长度: ${diff.length}`);
-logger.info(`开始调用大模型....`);
-const response = await callLLM(aiChatList);
-const { tool_calls } = response.data.choices[0].message;
-logger.success(`大模型调用完成，后处理中……`);
-logger.debug(`AI响应长度: ${tool_calls.length}`);
+while (aiChatList.getMessages().length < 5) {
+  logger.info(`开始调用大模型....`);
+  const response = await callLLM(aiChatList);
+  const { tool_calls } = response.data.choices[0].message;
+  logger.success(`大模型调用完成，后处理中……`);
+  logger.debug(`AI响应长度: ${tool_calls.length}`);
 
-const toolCallResult = await router.handleResponse({ tool_calls });
-logger.success(`后处理完成，开始执行git提交`);
-if (toolCallResult['git-commit']) {
-  const { type, message } = toolCallResult['git-commit'];
-  // 执行git提交，如果是暂存区模式则自动添加更改
-  await commit({
-    gitRoot,
-    message: `${type}: ${message}`, // 组合提交信息格式：type: message
-    needAdd: mode === 'unstaged',
-  });
+  const toolCallResult = await router.handleResponse({ tool_calls });
+  logger.success(`后处理完成，开始执行git提交`);
+  if (toolCallResult['git-commit']) {
+    const { type, message } = toolCallResult['git-commit'];
+    // 执行git提交，如果是暂存区模式则自动添加更改
+    await commit({
+      gitRoot,
+      message: `${type}: ${message}`, // 组合提交信息格式：type: message
+      needAdd: mode === 'unstaged',
+    });
+    break;
+  }
 }
