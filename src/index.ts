@@ -26,7 +26,13 @@ logger.debug(`Diff(from git) length: ${diff.length}`);
 while (aiChatList.getMessages().length < 5) {
   logger.info(`开始调用大模型....`);
   const response = await callLLM(aiChatList);
-  const { tool_calls } = response.data.choices[0].message;
+
+  const { tool_calls, content } = response.data.choices[0].message;
+  if (content) {
+    logger.warn(`大模型说: ${content}`);
+    logger.info('在设计中，理论上大模型不会进行发言，应该是哪儿出现了问题');
+    break;
+  }
   logger.success(`大模型调用完成，后处理中...`);
   const toolCallResult = await router.handleResponse({ tool_calls });
   logger.debug(`调用工具：${JSON.stringify(toolCallResult)}`);
@@ -48,7 +54,7 @@ while (aiChatList.getMessages().length < 5) {
     });
     if (toolCallResult['read-file']) {
       const { content } = toolCallResult['read-file'];
-      aiChatList.pushUserMessage(content);
+      aiChatList.pushToolMessage(tool_calls[0].id, content);
     }
   }
 }
