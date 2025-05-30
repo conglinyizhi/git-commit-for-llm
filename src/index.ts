@@ -2,7 +2,7 @@ import getDiff from './modules/git/diff';
 import findGitRoot from './modules/git/find-root';
 import path from 'node:path';
 import MessageList from './class/message';
-import getSystemPrompt from './modules/llm/prompt-fun/gen-commit';
+import getGenCommitSystemPrompt from './modules/llm/prompt-fun/gen-commit';
 import callLLM from './modules/llm/call';
 import logger from './utils/logger';
 import router from './modules/llm/tools';
@@ -16,10 +16,10 @@ const gitRoot = await findGitRoot(startSearchDir);
 logger.success(`找到git仓库根目录: ${gitRoot}`);
 const { diff, mode } = await getDiff(gitRoot);
 logger.debug(`差异获取完成，模式: ${mode}`);
-const systemPrompt = getSystemPrompt();
-logger.debug(`系统提示信息长度: ${systemPrompt.length}`);
+const sysPrompt = getGenCommitSystemPrompt();
+logger.debug(`系统提示信息长度: ${sysPrompt.length}`);
 
-aiChatList.initMessageArray(systemPrompt);
+aiChatList.initMessageArray(sysPrompt);
 aiChatList.pushUserMessage(diff);
 logger.debug(`Diff(from git) length: ${diff.length}`);
 
