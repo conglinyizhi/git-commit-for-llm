@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "NODE_ENV=development bun src/index.ts",
     "start": "bun src/index.ts"
   },
   "keywords": [],
