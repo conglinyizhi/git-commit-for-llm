@@ -22,7 +22,7 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/git-commit-for-llm.git
+git clone https://github.com/conglinyizhi/git-commit-for-llm.git
 cd git-commit-for-llm
 
 # 安装依赖
