@@ -2,7 +2,7 @@ import getDiff from './modules/git/diff';
 import findGitRoot from './modules/git/find-root';
 import path from 'node:path';
 import MessageList from './class/message';
-import getSystemPrompt from './modules/llm/prompt';
+import getSystemPrompt from './modules/llm/prompt-fun/gen-commit';
 import callLLM from './modules/llm/call';
 import logger from './utils/logger';
 import router from './modules/llm/tools';
