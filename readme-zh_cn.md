@@ -1,4 +1,4 @@
-# Git Commit 智能提交工具
+# Git Commit 智能协助者
 
 （其他语言的 readme 基于简体中文版本翻译）
 
@@ -15,8 +15,7 @@
 
 ## 环境要求
 
-- Node.js 18 或更高版本
-- Bun 1.0 或更高版本
+- TypeScript 运行时（比如 Bun（推荐） 或者 Node.js）
 - Git
 
 ## 安装
@@ -29,7 +28,7 @@ cd git-commit-for-llm
 # 安装依赖
 pnpm install
 
-# 运行
+# 额……运行？理论上来说可以这样，但这样体验不太好
 bun run start
 ```
 
