@@ -14,6 +14,10 @@ router.register({
         description: 'commit type',
         enum: ['test', 'style', 'chore', 'docs', 'ci', 'build', 'refactor', 'fix', 'feat', 'perf'],
       },
+      module: {
+        type: 'string',
+        description: 'the module name can be empty,but not recommended.(for convention commit)',
+      },
       message: {
         description: 'commit message',
         type: 'string',

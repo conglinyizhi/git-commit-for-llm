@@ -39,13 +39,21 @@ export default async function commitTool(
   }
 ): Promise<boolean> {
   if (!toolCallResult['git-commit']) return false;
-  const { type, message } = toolCallResult['git-commit'];
+  const data = toolCallResult['git-commit'];
   await commit({
     gitRoot: options.gitRoot,
-    message: `${type}: ${message}`,
+    message: buildCommitMessage(data),
     isUnstaged: options.mode === 'unstaged',
   });
   return true;
+}
+
+function buildCommitMessage($data: Record<string, any>) {
+  if ($data.module) {
+    return `${$data.type}(${$data.module}): ${$data.message}`;
+  } else {
+    return `${$data.type}: ${$data.message}`;
+  }
 }
 
 /** 执行git提交 */
