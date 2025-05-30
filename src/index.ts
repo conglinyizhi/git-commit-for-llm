@@ -12,6 +12,8 @@ const aiChatList = new MessageList();
 
 const startSearchDir = path.resolve(process.cwd());
 
+// TODO 确定提交规范和提交语言（根据 git 历史）
+
 const gitRoot = await findGitRoot(startSearchDir);
 logger.success(`找到git仓库根目录: ${gitRoot}`);
 const { diff, mode } = await getDiff(gitRoot);
