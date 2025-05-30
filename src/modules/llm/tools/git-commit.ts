@@ -26,8 +26,6 @@ router.register({
     required: ['type', 'message'],
   },
   async cb(args) {
-    const { type, message } = args;
-    logger.info(type, message);
     return args;
   },
 });
