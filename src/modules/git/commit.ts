@@ -28,15 +28,33 @@ async function runGitCommand(args: string[], config: ExecConfig): Promise<string
 }
 
 /**
- * 执行git commit操作
+ * 包装git提交工具
  * @param options 提交选项
  */
-export default async function commit(options: {
+export default async function commitTool(
+  toolCallResult: Record<string, any>,
+  options: {
+    gitRoot: string;
+    mode: string;
+  }
+): Promise<boolean> {
+  if (!toolCallResult['git-commit']) return false;
+  const { type, message } = toolCallResult['git-commit'];
+  await commit({
+    gitRoot: options.gitRoot,
+    message: `${type}: ${message}`,
+    isUnstaged: options.mode === 'unstaged',
+  });
+  return true;
+}
+
+/** 执行git提交 */
+async function commit(options: {
   message: string;
   gitRoot: string;
-  needAdd: boolean;
+  isUnstaged: boolean;
 }): Promise<void> {
-  const { message, gitRoot, needAdd } = options;
+  const { message, gitRoot, isUnstaged: needAdd } = options;
   const execConfig = { cwd: gitRoot };
   consola.info(`提交信息: ${message}`);
   const runCommit = await consola.prompt('需要执行 git commit 吗？', {

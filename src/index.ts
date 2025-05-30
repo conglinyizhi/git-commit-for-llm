@@ -6,7 +6,7 @@ import getSystemPrompt from './modules/llm/prompt';
 import callLLM from './modules/llm/call';
 import logger from './utils/logger';
 import router from './modules/llm/tools';
-import commit from './modules/git/commit';
+import commitCall from './modules/git/commit';
 
 const aiChatList = new MessageList();
 
@@ -37,7 +37,7 @@ while (aiChatList.getMessages().length < 5) {
   const toolCallResult = await router.handleResponse({ tool_calls });
   logger.debug(`调用工具：${JSON.stringify(toolCallResult)}`);
 
-  if (await commitTool(toolCallResult)) break;
+  if (await commitCall(toolCallResult, { gitRoot, mode })) break;
 
   logger.debug(`AI响应: ${JSON.stringify(tool_calls)}`);
   aiChatList.pushMessage({
@@ -49,17 +49,4 @@ while (aiChatList.getMessages().length < 5) {
     const { content } = toolCallResult['read-file'];
     aiChatList.pushToolMessage(tool_calls[0].id, content);
   }
-}
-
-/** 执行git提交，如果确实需要提交，返回 True 以终止循环 */
-async function commitTool(toolCallResult: Record<string, any>): Promise<boolean> {
-  if (!toolCallResult['git-commit']) return false;
-  const { type, message } = toolCallResult['git-commit'];
-  // 执行git提交，如果是暂存区模式则自动添加更改
-  await commit({
-    gitRoot,
-    message: `${type}: ${message}`, // 组合提交信息格式：type: message
-    needAdd: mode === 'unstaged',
-  });
-  return true;
 }
