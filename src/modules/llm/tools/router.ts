@@ -1,5 +1,5 @@
-import gitCommit from './git-commit';
-import readFile from './read-file';
+import gitCommit from './modules/git-commit';
+import readFile from './modules/read-file';
 import ToolRouter from '@/class/tool-router';
 
 let router: ToolRouter | null = null;
