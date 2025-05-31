@@ -7,6 +7,13 @@ import callLLM from './modules/llm/call';
 import logger from './utils/logger';
 import router from './modules/llm/tools';
 import commitCall from './modules/git/commit';
+import * as env from './utils/env-utils';
+
+if (env.IS_DEV) {
+  logger.debug('开发模式');
+  logger.info('常量文件内容如下：');
+  logger.info(JSON.stringify(env, null, 2));
+}
 
 const aiChatList = new MessageList();
 
