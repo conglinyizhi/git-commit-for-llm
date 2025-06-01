@@ -20,14 +20,14 @@ const aiChatList = new MessageList();
 const startSearchDir = path.resolve(process.cwd());
 
 const gitRoot = await findGitRoot(startSearchDir);
-logger.success(`找到git仓库根目录: ${gitRoot}`);
+logger.success(`找到 git 仓库根目录：${gitRoot}`);
 const { diff, mode } = await getDiff(gitRoot);
-logger.debug(`差异获取完成，模式: ${mode}`);
+logger.debug(`差异获取完成，模式：${mode}`);
 
 // TODO 确定提交规范和提交语言（根据 git 历史）
 
 const sysPrompt = getGenCommitSystemPrompt();
-logger.debug(`系统提示信息长度: ${sysPrompt.length}`);
+logger.debug(`系统提示信息长度：${sysPrompt.length}`);
 
 aiChatList.initMessageArray(sysPrompt);
 aiChatList.pushUserMessage(diff);
@@ -47,7 +47,7 @@ while (aiChatList.getMessages().length < 5) {
 
   if (await commitCall(toolCallResult, { gitRoot, mode })) break;
 
-  logger.debug(`AI响应: ${JSON.stringify(tool_calls)}`);
+  logger.debug(`AI 响应：${JSON.stringify(tool_calls)}`);
   aiChatList.pushMessage({
     role: 'assistant',
     content: null,
@@ -62,7 +62,7 @@ while (aiChatList.getMessages().length < 5) {
 /** 退出时打印大模型返回的内容，并警告用户：在设计中，大模型不会进行发言 */
 function exitWithLLMReturnContent(content: string): boolean {
   if (!content || !content.trim()) return false;
-  logger.warn(`大模型说: ${content}`);
+  logger.warn(`大模型说：${content}`);
   logger.info('在设计中，理论上大模型不会进行发言，应该是哪儿出现了问题');
   return true;
 }
