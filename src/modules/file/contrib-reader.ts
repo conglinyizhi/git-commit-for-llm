@@ -28,7 +28,7 @@ export default async function contrlibReader(gitRoot: string): Promise<Map<strin
 
   // 如果没有找到任何文件
   if (resultMap.size === 0) {
-    throw new Error('项目根目录下未找到CONTRIBUTING.md或CODE_OF_CONDUCT.md文件');
+    throw new Error('项目根目录下未找到 CONTRIBUTING.md 或 CODE_OF_CONDUCT.md 文件');
   }
 
   return resultMap;

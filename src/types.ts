@@ -1,5 +1,5 @@
 /**
- * Git提交类型
+ * Git 提交类型
  */
 export type TargetType =
   | 'test'
@@ -35,7 +35,7 @@ export interface ExecConfig {
 export interface LLMMessage {
   role: Role;
   content: string | null;
-  // 工具说：这是我的id
+  // 工具说：这是我的 id
   tool_call_id?: string;
   // 大模型说：我想调用这些个工具们
   tool_calls?: ToolCall[];

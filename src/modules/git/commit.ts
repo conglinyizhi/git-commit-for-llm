@@ -6,8 +6,8 @@ import type { ExecConfig } from '../../types';
 const execFileAsync = promisify(execFile);
 
 /**
- * 执行git命令
- * @param args git命令参数数组
+ * 执行 git 命令
+ * @param args git 命令参数数组
  * @param config 执行配置
  * @returns 返回命令输出
  */
@@ -28,7 +28,7 @@ async function runGitCommand(args: string[], config: ExecConfig): Promise<string
 }
 
 /**
- * 包装git提交工具
+ * 包装 git 提交工具
  * @param options 提交选项
  */
 export default async function commitTool(
@@ -56,7 +56,7 @@ function buildCommitMessage($data: Record<string, any>) {
   }
 }
 
-/** 执行git提交 */
+/** 执行 git 提交 */
 async function commit(options: {
   message: string;
   gitRoot: string;
@@ -64,7 +64,7 @@ async function commit(options: {
 }): Promise<void> {
   const { message, gitRoot, isUnstaged: needAdd } = options;
   const execConfig = { cwd: gitRoot };
-  consola.info(`提交信息: ${message}`);
+  consola.info(`提交信息：${message}`);
   const runCommit = await consola.prompt('需要执行 git commit 吗？', {
     type: 'confirm',
   });

@@ -114,7 +114,7 @@ export default class ToolRouter {
       resp.tool_calls.map(async (call) => {
         const tool = this.tools.get(call.function.name);
         if (!tool) {
-          logger.warn(`未注册的工具: ${call.function.name}`);
+          logger.warn(`未注册的工具：${call.function.name}`);
         } else {
           const args = this.buildJSON(call);
           const result = await tool.cb(args);

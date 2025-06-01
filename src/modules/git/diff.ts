@@ -6,8 +6,8 @@ import { getDiffReturnType } from '@/types';
 const execAsync = promisify(exec);
 
 /**
- * 执行git diff命令获取所有未暂存的变更
- * @param gitRoot Git仓库根目录
+ * 执行 git diff 命令获取所有未暂存的变更
+ * @param gitRoot Git 仓库根目录
  * @returns 返回变更内容字符串
  */
 export async function getUnstagedChanges(gitRoot: string): Promise<string> {
@@ -15,8 +15,8 @@ export async function getUnstagedChanges(gitRoot: string): Promise<string> {
 }
 
 /**
- * 执行git diff --staged命令获取已暂存的变更
- * @param gitRoot Git仓库根目录
+ * 执行 git diff --staged 命令获取已暂存的变更
+ * @param gitRoot Git 仓库根目录
  * @returns 返回已暂存变更内容字符串
  */
 export async function getStagedChanges(gitRoot: string): Promise<string> {
@@ -25,11 +25,11 @@ export async function getStagedChanges(gitRoot: string): Promise<string> {
 }
 
 /**
- * 执行git diff命令并返回结果
- * @param gitRoot Git仓库根目录
- * @param command git diff命令参数
+ * 执行 git diff 命令并返回结果
+ * @param gitRoot Git 仓库根目录
+ * @param command git diff 命令参数
  * @param message 执行前的提示信息
- * @returns 返回diff结果字符串
+ * @returns 返回 diff 结果字符串
  */
 async function executeGitDiff(gitRoot: string, command: string, message: string): Promise<string> {
   consola.info(message);
