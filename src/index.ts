@@ -39,7 +39,7 @@ while (aiChatList.getMessages().length < 5) {
 
   const { tool_calls, content } = response.data.choices[0].message;
 
-  if (exitWithLLMReturnContent(content.trim() || undefined)) break;
+  if (exitWithLLMReturnContent(content)) break;
 
   logger.success(`大模型调用完成，后处理中...`);
   const toolCallResult = await router.handleResponse({ tool_calls });
@@ -60,8 +60,8 @@ while (aiChatList.getMessages().length < 5) {
 }
 
 /** 退出时打印大模型返回的内容，并警告用户：在设计中，大模型不会进行发言 */
-function exitWithLLMReturnContent(content?: string): boolean {
-  if (content === undefined) return false;
+function exitWithLLMReturnContent(content: string): boolean {
+  if (!content || !content.trim()) return false;
   logger.warn(`大模型说: ${content}`);
   logger.info('在设计中，理论上大模型不会进行发言，应该是哪儿出现了问题');
   return true;
