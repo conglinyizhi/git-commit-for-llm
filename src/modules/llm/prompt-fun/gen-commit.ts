@@ -1,3 +1,4 @@
+import { Locale } from '@/utils/env-utils';
 export default function getSystemPrompt() {
   // 你是一个专业的软件开发者，拥有丰富的开发经验，现在需要你根据 git diff 生成一个 git commit message。
   const step1 =
@@ -9,5 +10,7 @@ export default function getSystemPrompt() {
     'You should not return any other content, please call the tool to return the type and commit message.';
   // 你可以使用工具来读取某个代码文件，但是每次只能读取一个文件，每次也只能调用一个工具
   const step4 = 'You can only read one file at a time, and you can only call one tool at a time.';
-  return `${step1}\n\n${step2}\n\n${step3}\n\n${step4}`;
+  // 根据本地化要求，你需要按照这个语言来输出消息
+  const step5 = 'You need to output the message in this language:' + Locale;
+  return `${step1}\n\n${step2}\n\n${step3}\n\n${step4}\n\n${step5}`;
 }
