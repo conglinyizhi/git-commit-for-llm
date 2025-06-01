@@ -28,7 +28,7 @@ logger.debug(`差异获取完成，模式：${mode}`);
 
 const sysPrompt = getGenCommitSystemPrompt();
 logger.debug(`系统提示信息长度：${sysPrompt.length}`);
-
+logger.debug(sysPrompt);
 aiChatList.initMessageArray(sysPrompt);
 aiChatList.pushUserMessage(diff);
 logger.debug(`Diff(from git) length: ${diff.length}`);
