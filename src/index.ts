@@ -37,7 +37,7 @@ while (aiChatList.getMessages().length < 5) {
   logger.info(`开始调用大模型....`);
   const response = await callLLM(aiChatList);
 
-  const { tool_calls, content } = response.data.choices[0].message;
+  const { tool_calls, content } = response.choices[0].message;
 
   if (exitWithLLMReturnContent(content)) break;
 
