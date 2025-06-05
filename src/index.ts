@@ -8,13 +8,16 @@ import logger from './utils/logger';
 import router from './modules/llm/tools';
 import commitCall from './modules/git/commit';
 import * as env from './utils/env-utils';
+import { createTimedProxy } from './proxy';
 
 if (env.IS_DEV) {
   logger.debug('开发模式');
   logger.info('常量文件内容如下：');
   logger.info(JSON.stringify(env, null, 2));
 }
+
 async function main() {
+  const callLLMTimerProxy = createTimedProxy(callLLM);
   const aiChatList = new MessageList();
 
   const startSearchDir = path.resolve(process.cwd());
@@ -35,8 +38,8 @@ async function main() {
 
   while (aiChatList.getMessages().length < 5) {
     logger.info(`开始调用大模型....`);
-    const response = await callLLM(aiChatList);
 
+    const response = await callLLMTimerProxy(aiChatList);
     const { tool_calls, content } = response.choices[0].message;
 
     if (exitWithLLMReturnContent(content)) break;
