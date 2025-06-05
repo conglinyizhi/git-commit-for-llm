@@ -1,6 +1,7 @@
 import Message from '@/class/message';
 import axios from 'axios';
 import router from './tools/router';
+import logger from '@/utils/logger';
 
 export default async function callLLM(msg: Message) {
   // 调用 DeepSeek API
@@ -22,6 +23,12 @@ export default async function callLLM(msg: Message) {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${process.env.LLM_TOKEN}`,
+        },
+        onUploadProgress(progressEvent) {
+          logger.info(`上传数据：${progressEvent.bytes} bytes`);
+        },
+        onDownloadProgress(progressEvent) {
+          logger.info(`下载数据：${progressEvent.bytes} bytes`);
         },
       }
     )
